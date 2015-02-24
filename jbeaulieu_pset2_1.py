@@ -27,6 +27,17 @@ location_y = location[1]
 location_z = location[2]
 
 # Calculate the electric field individually in each dimension
+# Try to enter cahrge data (1,0,0,1) and location (0,0,0). You will get an error because you
+# are dividing by zero. The problem is that the expression of your E-field is not the correct one.
+# First: You nedd to define the distance between the point charge and the point where you want to calculate the E-field
+# distance = sqrt( (location_x-charge_x)**2+ (location_y - charge_y)**2+(location_y - charge_y)**2 ). Note that
+#k*charge_q/distance**2 it will be just the magnitude of the E-fiels. Then you need to write each components along the x,y,z
+# Second: Write the components
+# E_x = ( (k * charge_q)/(distance**2) ) * (location_x - charge_x)/distance
+# E_y = ( (k * charge_q)/(distance**2) ) * (location_y - charge_y)/distance
+# E_z = ( (k * charge_q)/(distance**2) ) * (location_z - charge_z)/distance
+# Try it !
+
 E_x = (k * charge_q) / ((location_x - charge_x)**2)
 E_y = (k * charge_q) / ((location_y - charge_y)**2)
 E_z = (k * charge_q) / ((location_z - charge_z)**2)
