@@ -31,6 +31,9 @@ class sphere_cylinder_cap(capacitor):
         self.s=s
         self.qc=qc
         self.qs=qs
+# The idea was either that you put together an integral of Gauss' Law
+# from the sphere to the cylinder by computation, or that you perform
+# the integral analytically and incorporate the answer into the script.
 
 class superCap:
     def __init__(self, cap1, cap2, parallel):
