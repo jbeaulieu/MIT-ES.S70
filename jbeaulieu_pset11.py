@@ -1,14 +1,12 @@
 #################################
-# Title: Homework 11 Script     #
-# Lesson: Faraday's Law         #
-# Filename: pyhw_11_sol.py      #
-# Original Author: Joe Griffin  #
-# Most Recent Edit: 3/27/2014   #
-# Last Editor:             PR   #
+# Pset 11                       #
+# Filename: jbeaulieu_pset11.py #
+# Original Author: Jon Beaulieu #
+# Most Recent Edit: 5/10/2015   #
 #################################
 
 # This script calculates the magnetic flux of a pair of current-carrying rings through
-#   a rotating square loop in a generator format, then plots it against the approximate
+#   a rotating square loop in a generator format; you will have to plot it against the approximate
 # value (obtained for B~const).
 
 import numpy as np
@@ -25,6 +23,9 @@ res = 10.0                                          # Plotting resolution
 
 I = 10.0                                            # current in the square loop (amp)
 a = 0.05                                            # radius of the rings in m
+
+# magnetic field produced by a solenoid (the two rings of the generator can be thought as two rings
+# of a solenoid- BE SURE TO UNDERSTAND THIS FUNCTION
 
 def solenoid(P, N, l):                              # B of solenoid length l from origin loops N at P
     interval = int(2 * pi / dtheta)
@@ -62,18 +63,14 @@ def solenoid(P, N, l):                              # B of solenoid length l fro
     B = np.sum(dB, axis = (1, 2))
     return B
 
+# Calculation of the magnetic flux - BE SURE TO UNDERSTAND THIS FUNCTION
+
 def generatorFlux(phi):                             # Flux through loop at angle phi (angle between B and vector area)
     ctr = np.array((0.0, 0.0, 0.05))
     S = 0.5 * a                                      # Side of the loop
     Flux = 0
-    for i in xrange(int(S / dx)):                   ### Polar coordinates for easy limits
+    for i in xrange(int(S / dx)):
         for j in xrange(int(S / dy)):
-#            x = i * dx - S / 2
-#            y = j * dy - S / 2
-#            shift = S * np.array((x,                # what is this? units?
-#                                  y,
-#                                  S * sin(phi)
-#                                  ))
             x = i * dx - S / 2
             y = (j * dy - S / 2) * cos(phi)
             z = (j * dy - S / 2) * sin(phi)
@@ -90,23 +87,19 @@ def generatorFlux(phi):                             # Flux through loop at angle
     return Flux
 
 # Make a plot for phi in (0, 2pi)
+# Compare with the approximate flux that you would get for uniform B
+### THIS PART IS UP TO YOU
 
-angle = np.arange(int(2 * pi * res)) / res
-print angle
 flux = []
-start = time.time()
-for phi in angle:                                   # Create iterables for plotting
-    try:
-        flux.append(generatorFlux(phi))
-        print 'Angle', phi, 'complete.'
-        print 'Current runtime:', time.time() - start
-    except KeyboardInterrupt:
-        print 'Angle:', phi
-        print 'Runtime:', time.time() - start, '\n'
-print 'Total Runtime:', time.time() - start
-plot(angle, flux, 'ob')
-plot(angle, max(flux) * np.cos(angle), '*r')
-title('Numerical calculation VS Uniform Field Comparison')
-xlabel('Rotation Angle in rad')
-ylabel('Flux in Tesla')
+approxFlux = []
+theta = np.arange(0.0, 2*pi, 0.1)
+
+for i in theta:
+    flux.append(generatorFlux(i))
+    approxFlux.append(max(flux) * np.cos(i))
+
+# The magnetic flux is plotted as a series of blue squares
+# The approximated flux is plotted as a series of red squares
+plot(theta, flux, 'bs')
+plot(theta, approxFlux, 'rs')
 show()
